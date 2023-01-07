@@ -1,0 +1,19 @@
+**********************SORULAR*********************
+Soru-1) film tablosunda film uzunluğu length sütununda gösterilmektedir. Uzunluğu ortalama film uzunluğundan fazla kaç tane film vardır?
+Soru-2) film tablosunda en yüksek rental_rate değerine sahip kaç tane film vardır?
+Soru-3) film tablosunda en düşük rental_rate ve en düşün replacement_cost değerlerine sahip filmleri sıralayınız.
+Soru-4) payment tablosunda en fazla sayıda alışveriş yapan müşterileri(customer) sıralayınız.
+
+
+**********************CEVAPLAR******************
+1) select count(*) from film  where length < (select avg(length) from film );
+
+2) select count(*) from film where rental_rate=(select max(rental_rate) from film);
+
+3) select * from film 
+where rental_rate= any (select min(rental_rate) from film)
+and replacement_cost=any (select min(replacement_cost) from film);
+
+4) select customer.first_name,customer.last_name from payment
+inner join customer on customer.customer_id = payment.customer_id
+where payment.amount=(select max(amount) from payment);
